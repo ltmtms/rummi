@@ -97,7 +97,7 @@ export function createGame(config: GameConfig, previous?: GameState): GameState 
     log: [],
     logCounter: 0,
   };
-  return addLog(state, `Round ${round} begins. ${players[first].name} goes first.`);
+  return addLog(state, `Round ${round} begins. First turn: ${players[first].name}.`);
 }
 
 function addLog(state: GameState, text: string, playerId?: string): GameState {
@@ -242,7 +242,7 @@ export function commitTurn(state: GameState): GameState {
     next,
     wasMelded
       ? `${player.name} played ${placed.length} ${tileWord}.`
-      : `${player.name} made their initial meld with ${placed.length} ${tileWord}.`,
+      : `${player.name} opened with ${placed.length} ${tileWord}.`,
     player.id,
   );
   if (players[state.current].rack.length === 0) return finishRound(next, player.id);
@@ -296,7 +296,7 @@ function finishRound(state: GameState, winnerId: string | null): GameState {
   const winnerName = players.find((p) => p.id === winner)!.name;
   return addLog(
     { ...state, players, status: "over", winnerId: winner, roundResults },
-    winnerId ? `${winnerName} emptied their rack and wins the round!` : `The pool ran dry. ${winnerName} wins with the fewest points left.`,
+    winnerId ? `${winnerName} played the last tile and wins the round!` : `The pool ran dry. ${winnerName} wins with the fewest points left.`,
     winner,
   );
 }
