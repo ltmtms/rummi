@@ -263,7 +263,7 @@ export function Game() {
   })();
 
   return (
-    <main className="felt relative flex h-dvh flex-1 flex-col overflow-hidden">
+    <main className="felt relative flex h-dvh max-h-dvh min-h-0 flex-1 flex-col overflow-hidden">
       <div className="felt-dots pointer-events-none absolute inset-0" />
 
       <header className="relative z-10 flex h-14 shrink-0 items-center justify-between gap-3 border-b border-white/5 px-3 sm:px-5">
@@ -295,7 +295,7 @@ export function Game() {
         ))}
       </section>
 
-      <div className="relative z-10 flex min-h-0 flex-1">
+      <div className="relative z-10 flex min-h-0 flex-1 overflow-hidden">
         <div className="min-w-0 flex-1 overflow-y-auto">
           <Board
             table={game.table}
@@ -312,8 +312,8 @@ export function Game() {
           />
         </div>
 
-        <aside className="hidden w-64 shrink-0 flex-col gap-4 border-l border-white/5 p-4 xl:flex">
-          <div>
+        <aside className="hidden min-h-0 w-64 shrink-0 flex-col gap-4 overflow-hidden border-l border-white/5 p-4 xl:flex">
+          <div className="shrink-0">
             <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-white/40">Scores</h2>
             <ul className="space-y-1.5">
               {[...game.players]
@@ -328,8 +328,8 @@ export function Game() {
             </ul>
           </div>
           <div className="flex min-h-0 flex-1 flex-col">
-            <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-white/40">Activity</h2>
-            <ul className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 text-xs leading-relaxed text-white/55">
+            <h2 className="mb-2 shrink-0 text-xs font-medium uppercase tracking-wider text-white/40">Activity</h2>
+            <ul className="min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-y-contain pr-1 text-xs leading-relaxed text-white/55">
               {game.log.map((entry, i) => (
                 <li key={entry.id} className={cn(i === 0 && "text-white/90")}>
                   {entry.text}
