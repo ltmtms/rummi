@@ -1,0 +1,30 @@
+name: Dependency audit
+
+# Separate from Pages deploy so an advisory cannot block a release.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  npm-audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: npm audit (non-blocking)
+        continue-on-error: true
+        run: npm audit --audit-level=moderate

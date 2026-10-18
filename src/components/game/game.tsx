@@ -33,6 +33,7 @@ import {
   type GameState,
   type MoveTarget,
 } from "@/lib/rummi/game";
+import { CONFIG_KEY, loadSaved, SAVE_KEY } from "@/lib/rummi/persist";
 import { INITIAL_MELD_MIN, type SortMode } from "@/lib/rummi/tiles";
 import { cn } from "@/lib/utils";
 import { Board, useDropTarget } from "./board";
@@ -41,10 +42,6 @@ import { RoundOverDialog } from "./round-over-dialog";
 import { RulesDialog } from "./rules-dialog";
 import { StartScreen } from "./start-screen";
 import { TileView } from "./tile-view";
-
-const SAVE_KEY = "rummi:game:v1";
-const CONFIG_KEY = "rummi:config:v1";
-const DEFAULT_CONFIG: GameConfig = { playerName: "", opponents: 2, difficulty: "normal" };
 
 function Logo() {
   return (
@@ -58,24 +55,6 @@ function Logo() {
 }
 
 const noopSubscribe = () => () => {};
-
-function loadSaved(): { game: GameState | null; config: GameConfig } {
-  if (typeof window === "undefined") return { game: null, config: DEFAULT_CONFIG };
-  let config = DEFAULT_CONFIG;
-  let game: GameState | null = null;
-  try {
-    const savedConfig = localStorage.getItem(CONFIG_KEY);
-    if (savedConfig) config = { ...DEFAULT_CONFIG, ...JSON.parse(savedConfig) };
-    const saved = localStorage.getItem(SAVE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved) as GameState;
-      if (parsed.version === 1) game = parsed;
-    }
-  } catch {
-    localStorage.removeItem(SAVE_KEY);
-  }
-  return { game, config };
-}
 
 export function Game() {
   const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);

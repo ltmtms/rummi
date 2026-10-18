@@ -32,10 +32,24 @@ export function createDeck(): Tile[] {
   return deck;
 }
 
+/** Uniform integer in [0, exclusive), without modulo bias. */
+function randomBelow(exclusive: number): number {
+  if (exclusive <= 1) return 0;
+  const max = 0x1_0000_0000;
+  const limit = max - (max % exclusive);
+  const buf = new Uint32Array(1);
+  let value = 0;
+  do {
+    crypto.getRandomValues(buf);
+    value = buf[0] ?? 0;
+  } while (value >= limit);
+  return value % exclusive;
+}
+
 export function shuffle<T>(items: T[]): T[] {
   const a = [...items];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = randomBelow(i + 1);
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
