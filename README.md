@@ -4,6 +4,8 @@ A modern, browser-based take on the classic Rummikub-style tile game. Build runs
 
 Everything runs client-side — no server, no accounts — so the app is exported as a static site and deployed to **GitHub Pages**. Games autosave to `localStorage`, so a refresh picks up where you left off.
 
+Saved games and settings stay in this browser only. Treat them as untrusted: anyone with access to the profile can read or edit them, and the shape check that drops a broken save is client-side only. There is no server-side integrity.
+
 ## Features
 
 - Full 106-tile set (1–13 in four colors ×2, plus two jokers) and standard rules: 30-point initial meld, free table rearrangement after opening, joker penalty of 30.

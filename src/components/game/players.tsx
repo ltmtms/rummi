@@ -2,9 +2,11 @@
 
 import { Check } from "lucide-react";
 import type { Player } from "@/lib/rummi/game";
+import { safeHue } from "@/lib/rummi/hue";
 import { cn } from "@/lib/utils";
 
 export function Avatar({ player, size = "md" }: { player: Player; size?: "sm" | "md" }) {
+  const hue = safeHue(player.hue);
   return (
     <span
       className={cn(
@@ -12,7 +14,7 @@ export function Avatar({ player, size = "md" }: { player: Player; size?: "sm" | 
         size === "sm" ? "size-6 text-[11px]" : "size-9 text-sm",
       )}
       style={{
-        background: `linear-gradient(135deg, oklch(0.72 0.15 ${player.hue}), oklch(0.5 0.16 ${player.hue + 30}))`,
+        background: `linear-gradient(135deg, oklch(0.72 0.15 ${hue}), oklch(0.5 0.16 ${hue + 30}))`,
       }}
     >
       {player.name.slice(0, 1).toUpperCase()}
